@@ -1,14 +1,16 @@
-#include <UF.h>
+#include "UF.h"
+#include <iostream>
+using namespace std;
 
 UF::UF(int size)
 {
   id = new int[size];
   sz = new int[size];
-  count = size;
+  _count = size;
   for (int i=0; i<size;i++)
   {
     id[i]=i;
-    sz[i]=1
+    sz[i]=1;
   }
 }
 UF::~UF()
@@ -38,7 +40,7 @@ bool UF::connected(int a,int b)
   return find(a)==find(b);
 }
 
-void UF::union(int a, int b)
+void UF::doUnion(int a, int b)
 {
   if (connected(a,b)) return;
   int roota = find(a);
@@ -53,5 +55,20 @@ void UF::union(int a, int b)
     id[rootb]=roota;
     sz[roota]+=sz[rootb];
   }
-  count--;
+  _count--;
+}
+
+int UF::count()
+{
+  return _count;
+}
+
+int main(int argc, const char* argv[])
+{
+  UF testUF(5);
+  testUF.doUnion(0,1);
+  testUF.doUnion(0,2);
+  testUF.doUnion(1,3);
+  testUF.doUnion(4,3);
+  cout << testUF.connected(0,2) << endl;
 }
